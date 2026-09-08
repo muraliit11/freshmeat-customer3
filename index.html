@@ -1282,3 +1282,26 @@
 <script type="module" src="freshmeat-paywall.js"></script>
 </body>
 </html>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBFxIFfgtTYT8vb42rPIQ-eJClzm73xttw",
+    authDomain: "freshmeat-6bfd0.firebaseapp.com",
+    projectId: "freshmeat-6bfd0",
+    storageBucket: "freshmeat-6bfd0.firebasestorage.app",
+    messagingSenderId: "329301869183",
+    appId: "1:329301869183:web:5145e6b73cc5a85e85b54a",
+    measurementId: "G-ZB314FHRJ6"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
