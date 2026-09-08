@@ -515,6 +515,28 @@
   }
 </style>
 </head>
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBFxIFfgtTYT8vb42rPIQ-eJClzm73xttw",
+    authDomain: "freshmeat-6bfd0.firebaseapp.com",
+    projectId: "freshmeat-6bfd0",
+    storageBucket: "freshmeat-6bfd0.firebasestorage.app",
+    messagingSenderId: "329301869183",
+    appId: "1:329301869183:web:5145e6b73cc5a85e85b54a"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const ADMIN_EMAIL = "customer3@freshmeat.local";
+
+  window.firebaseAdminSignIn = async function (enteredPassword) {
+    return signInWithEmailAndPassword(auth, ADMIN_EMAIL, enteredPassword);
+  };
+</script>
 <body>
 
 <div class="header">
@@ -798,20 +820,21 @@
     document.getElementById("admin-modal").classList.remove("open");
   }
 
-  function submitAdminPassword() {
-    const entered = document.getElementById("admin-password-input").value;
-    if (entered === ADMIN_PASSWORD) {
-      adminUnlocked = true;
-      document.getElementById("admin-btn").textContent = "🔓 Admin";
-      document.getElementById("admin-btn").classList.add("unlocked");
-      document.getElementById("export-btn").style.display = "inline-block";
-      document.getElementById("restore-btn").style.display = "inline-block";
-      renderGrid();
-      closeAdminModal();
-    } else {
-      document.getElementById("admin-error").textContent = "Incorrect password. Try again.";
-    }
+  async function submitAdminPassword() {
+  const entered = document.getElementById("admin-password-input").value;
+  try {
+    await window.firebaseAdminSignIn(entered);
+    adminUnlocked = true;
+    document.getElementById("admin-btn").textContent = "🔓 Admin";
+    document.getElementById("admin-btn").classList.add("unlocked");
+    document.getElementById("export-btn").style.display = "inline-block";
+    document.getElementById("restore-btn").style.display = "inline-block";
+    renderGrid();
+    closeAdminModal();
+  } catch (err) {
+    document.getElementById("admin-error").textContent = "Incorrect password. Try again.";
   }
+}
 
   // --- Forgot password: OTP reset flow (simulated OTP, no real SMS sent) ---
   let pendingOtp = null;
@@ -1281,27 +1304,5 @@
   
 <script type="module" src="freshmeat-paywall.js"></script>
 </body>
+ 
 </html>
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyBFxIFfgtTYT8vb42rPIQ-eJClzm73xttw",
-    authDomain: "freshmeat-6bfd0.firebaseapp.com",
-    projectId: "freshmeat-6bfd0",
-    storageBucket: "freshmeat-6bfd0.firebasestorage.app",
-    messagingSenderId: "329301869183",
-    appId: "1:329301869183:web:5145e6b73cc5a85e85b54a",
-    measurementId: "G-ZB314FHRJ6"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
