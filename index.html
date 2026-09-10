@@ -1228,9 +1228,10 @@
 
     const wsMeta = XLSX.utils.json_to_sheet([{ invoiceCounter, nextAddedAt, exportedAt: new Date().toISOString() }]);
     XLSX.utils.book_append_sheet(wb, wsMeta, "Meta");
-
     const stamp = new Date().toISOString().slice(0, 10);
-    XLSX.writeFile(wb, `FreshMeat-backup-${stamp}.xlsx`);
+    const shopSlug = SHOP_NAME.replace(/\s*FreshMeat Shop\s*$/i, "").trim().replace(/\s+/g, "-");
+    XLSX.writeFile(wb, `${shopSlug}-FreshMeat-Backup-${stamp}.xlsx`);
+    
     showToast("Backup downloaded.");
   }
 
